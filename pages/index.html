@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <!-- H5页面窗口自动调整到设备宽度，并控制用户缩放页面 -->
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
+    <!-- IOS中禁用将数字识别为电话号码/忽略Android平台中对邮箱地址的识别 -->
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<!-- v前缀代表指令 -->
+<!-- v-bind 属性绑定 -->
+<!-- v-if if结构  seen:显隐属性 -->
+
+<body>
+    <div id="app" v-bind:title="titlemessage">
+        {{message}}
+        <p v-if="seen">忽隐忽现</p>
+        <p v-on:click="clickEvent">点击事件</p>
+    </div>
+    <div id="app2">
+        <ul>
+            <li v-for="arr in arrs">
+                {{arr.text}}
+            </li>
+        </ul>
+    </div>
+
+    <!-- 循环模板渲染 -->
+    <div id="app3">
+        <ol>
+            <todo-item v-for="item in list" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+        </ol>
+    </div>
+
+
+    <!-- 计算属性 -->
+    <div id="app4">
+        <p>原始字符：{{message}}</p>
+        <p>计算之后的字符：{{lastmessage}}</p>
+    </div>
+
+    <!-- 模板渲染，if else -->
+    <div id="app5">
+        <h1 v-if="awesome">Vue is awesome!</h1>
+        <h1 v-else>Vue is not awesome</h1>
+
+        <template v-if="ok">
+            <h1>Title</h1>
+            <p>Paragraph 1</p>
+            <p>Paragraph 2</p>
+        </template>
+    </div>
+
+    <!-- 列表遍历-01 -->
+    <ul id="items1">
+        <li v-for="item in items" v-bind:key="item.message">
+            {{item.message}}
+        </li>
+
+    </ul>
+    <!-- 列表便利-02 -->
+    <ul id="items2">
+        <li v-for="(item,index) in items">
+            {{parentMessage}} - {{index}} - {{item.message}}
+
+        </li>
+
+    </ul>
+
+    <!-- 列表渲染-03 -->
+    <ul id="items3">
+        <template v-for="item in items" id="items3">
+            <li>{{item.message}}</li>
+        </template>
+
+    </ul>
+    <script>
+        //列表遍历-03
+        var items3 = new Vue({
+            el: "#items3",
+            data: {
+                items: [{
+                        message: "第一个消息"
+                    },
+                    {
+                        message: "第二个消息"
+                    }
+                ]
+            }
+        });
+        // 列表便利-02
+        var items2 = new Vue({
+            el: "#items2",
+            data: {
+                parentMessage: "父级元素",
+                items: [{
+                        "message": "今天",
+                        "arrays": [{
+                                text: "weather"
+                            },
+                            {
+                                text: "fine"
+                            }
+                        ]
+                    },
+                    {
+                        message: "天气"
+                    },
+                    {
+                        message: "不错"
+                    }
+                ]
+            }
+        });
+
+        //列表便利-01
+        var items = new Vue({
+            el: "#items1",
+            data: {
+                items: [{
+                        "message": "今天1"
+                    },
+                    {
+                        message: "天气1"
+                    },
+                    {
+                        message: "不错1"
+                    }
+                ]
+            }
+        });
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                'message': "hello World!",
+                'titlemessage': "我是title",
+                'seen': true
+            },
+            methods: {
+                clickEvent: function () {
+                    alert("点击事件！！");
+                }
+            }
+        });
+
+        var app2 = new Vue({
+            el: "#app2",
+            data: {
+                arrs: [{
+                        text: "希望"
+                    },
+                    {
+                        text: "今天"
+                    },
+                    {
+                        text: "是个好心情"
+                    }
+                ]
+            }
+        });
+
+        // 组件
+        Vue.component('todo-item', {
+            props: ['todo'],
+            template: '<li>{{todo.text}}</li>'
+        });
+
+        var app3 = new Vue({
+            el: "#app3",
+            data: {
+                list: [{
+                    text: "第一",
+                    id: "1"
+                }, {
+                    text: "第二",
+                    id: "2"
+                }]
+            }
+        });
+
+        var app4 = new Vue({
+            el: "#app4",
+            data: {
+                message: "hello"
+            },
+            computed: {
+                lastmessage: function () {
+                    return this.message + "  world!";
+                }
+            }
+        });
+
+        console.log(app4.message);
+
+        var app5 = new Vue({
+            el: "#app5",
+            data: {
+                awesome: false,
+                ok: true
+            }
+        });
+    </script>
+</body>
+
+</html>
